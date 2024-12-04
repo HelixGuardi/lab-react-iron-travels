@@ -2,11 +2,19 @@ import { useState } from "react";
 import travelPlansData from "../assets/travel-plans.json";
 
 function TravelList() {
-  const [travelInfo, setTravelInfo] = useState(null);
 
+    const [plansData, setPlansData] = useState(travelPlansData);
+    // console.log(plansData)
+
+    const handleDelete = (idToDelete) => {
+        // console.log("testing", idToDelete);
+        const stateClone = plansData.filter((plan) => plan.id !== idToDelete)
+        setPlansData(stateClone)
+    }
+    
   return (
     <div className="list-container">
-      {travelPlansData.map((eachObj, index) => {
+      {plansData.map((eachObj, index) => {
         return (
           <div key={index} className="travel-info-container">
             <img src={eachObj.image} />
@@ -18,6 +26,7 @@ function TravelList() {
               <p>
                 <span>Price:</span> {eachObj.totalCost} €
               </p>
+
               <div className="tag-container">
                 {eachObj.totalCost <= 350 && (
                   <div className="great-deal-tag">
@@ -35,6 +44,8 @@ function TravelList() {
                   </div>
                 )}
               </div>
+
+              <button onClick={() => handleDelete(eachObj.id)} className="delete-btn"><span>Delete</span></button>
             </div>
           </div>
         );
